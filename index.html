@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulasi Tabungan Berjangka</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #0066cc;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+    main {
+      max-width: 1000px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #0066cc;
+    }
+    .form-section {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #0066cc;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #004999;
+    }
+    .result {
+      margin-top: 15px;
+      padding: 10px;
+      background: #e6f2ff;
+      border: 1px solid #b3d9ff;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      text-align: right;
+    }
+    th {
+      background: #0066cc;
+      color: #fff;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Simulasi Tabungan Berjangka</h1>
+  </header>
+  <main>
+    
+    <!-- Produk 1 -->
+    <div class="form-section">
+      <h2>1. Cordelia Ceremony</h2>
+      <p><strong>Aturan:</strong> Bunga 1% / tahun, bunga berbunga, pajak 20%, jangka waktu 1–3 tahun</p>
+      <label for="cordelia-tenor">Jangka Waktu</label>
+      <select id="cordelia-tenor">
+        <option value="1">1 Tahun</option>
+        <option value="2">2 Tahun</option>
+        <option value="3">3 Tahun</option>
+      </select>
+      <label for="cordelia-setoran">Setoran per Bulan (Rp)</label>
+      <input type="number" id="cordelia-setoran" placeholder="contoh: 1000000">
+      <button onclick="hitungCordelia()">Hitung</button>
+      <div id="cordelia-result" class="result"></div>
+    </div>
+
+    <!-- Produk 2 -->
+    <div class="form-section">
+      <h2>2. Tabungan Elara Tanpa Setoran Awal</h2>
+      <p><strong>Aturan:</strong> Bunga 4% / tahun, bunga berbunga, pajak 20%, jangka waktu 1–5 tahun</p>
+      <label for="elara-tenor">Jangka Waktu</label>
+      <select id="elara-tenor">
+        <option value="1">1 Tahun</option>
+        <option value="2">2 Tahun</option>
+        <option value="3">3 Tahun</option>
+        <option value="4">4 Tahun</option>
+        <option value="5">5 Tahun</option>
+      </select>
+      <label for="elara-setoran">Setoran per Bulan (Rp)</label>
+      <input type="number" id="elara-setoran" placeholder="contoh: 1000000">
+      <button onclick="hitungElara()">Hitung</button>
+      <div id="elara-result" class="result"></div>
+    </div>
+
+    <!-- Produk 3 -->
+    <div class="form-section">
+      <h2>3. Tabungan Elara Dengan Setoran Awal</h2>
+      <p><strong>Aturan:</strong> Bunga 5% / tahun, bunga berbunga, pajak 20%, jangka waktu 1–5 tahun</p>
+      <label for="elaraAwal-tenor">Jangka Waktu</label>
+      <select id="elaraAwal-tenor">
+        <option value="1">1 Tahun</option>
+        <option value="2">2 Tahun</option>
+        <option value="3">3 Tahun</option>
+        <option value="4">4 Tahun</option>
+        <option value="5">5 Tahun</option>
+      </select>
+      <label for="elaraAwal-setoranAwal">Setoran Awal (Rp)</label>
+      <input type="number" id="elaraAwal-setoranAwal" placeholder="contoh: 5000000">
+      <label for="elaraAwal-setoran">Setoran per Bulan (Rp)</label>
+      <input type="number" id="elaraAwal-setoran" placeholder="contoh: 1000000">
+      <button onclick="hitungElaraAwal()">Hitung</button>
+      <div id="elaraAwal-result" class="result"></div>
+    </div>
+
+  </main>
+
+  <script>
+    // Fungsi menghitung dengan simulasi per bulan
+    function hitungSimulasi(setoranBulanan, tenor, bungaTahunan, setoranAwal = 0) {
+      const bungaBulanan = bungaTahunan / 12;
+      const pajak = 0.20;
+
+      let saldo = setoranAwal;
+      let data = [];
+      let totalSetoran = setoranAwal;
+
+      for (let bulan = 1; bulan <= tenor * 12; bulan++) {
+        saldo += setoranBulanan;
+        totalSetoran += setoranBulanan;
+        
+        let bungaKotor = saldo * bungaBulanan;
+        let bungaBersih = bungaKotor * (1 - pajak);
+
+        saldo += bungaBersih;
+
+        data.push({
+          bulan: bulan,
+          setoran: setoranBulanan,
+          bunga: bungaBersih,
+          saldo: saldo
+        });
+      }
+
+      return {data, saldo};
+    }
+
+    function formatRupiah(angka) {
+      return "Rp " + angka.toLocaleString("id-ID", {minimumFractionDigits:0});
+    }
+
+    function buatTabel(data) {
+      let html = `
+        <table>
+          <tr>
+            <th>Bulan</th>
+            <th>Setoran</th>
+            <th>Bunga Bersih</th>
+            <th>Saldo Akhir</th>
+          </tr>
+      `;
+      data.forEach(d => {
+        html += `
+          <tr>
+            <td>${d.bulan}</td>
+            <td>${formatRupiah(d.setoran)}</td>
+            <td>${formatRupiah(d.bunga)}</td>
+            <td>${formatRupiah(d.saldo)}</td>
+          </tr>
+        `;
+      });
+      html += </table>;
+      return html;
+    }
+
+    function hitungCordelia() {
+      const tenor = parseInt(document.getElementById("cordelia-tenor").value);
+      const setoran = parseInt(document.getElementById("cordelia-setoran").value) || 0;
+      const hasil = hitungSimulasi(setoran, tenor, 0.01, 0);
+      document.getElementById("cordelia-result").innerHTML = `
+        <b>Total Saldo Akhir:</b> ${formatRupiah(hasil.saldo)}
+        ${buatTabel(hasil.data)}
+      `;
+    }
+
+    function hitungElara() {
+      const tenor = parseInt(document.getElementById("elara-tenor").value);
+      const setoran = parseInt(document.getElementById("elara-setoran").value) || 0;
+      const hasil = hitungSimulasi(setoran, tenor, 0.04, 0);
+      document.getElementById("elara-result").innerHTML = `
+        <b>Total Saldo Akhir:</b> ${formatRupiah(hasil.saldo)}
+        ${buatTabel(hasil.data)}
+      `;
+    }
+
+    function hitungElaraAwal() {
+      const tenor = parseInt(document.getElementById("elaraAwal-tenor").value);
+      const setoranAwal = parseInt(document.getElementById("elaraAwal-setoranAwal").value) || 0;
+      const setoran = parseInt(document.getElementById("elaraAwal-setoran").value) || 0;
+      const hasil = hitungSimulasi(setoran, tenor, 0.05, setoranAwal);
+      document.getElementById("elaraAwal-result").innerHTML = `
+        <b>Total Saldo Akhir:</b> ${formatRupiah(hasil.saldo)}
+        ${buatTabel(hasil.data)}
+      `;
+    }
+  </script>
+</body>
+</html>
