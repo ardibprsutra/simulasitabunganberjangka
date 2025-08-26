@@ -166,7 +166,8 @@
   function simulasiBulanan({setoranBulanan, tenorTahun, bungaTahunan, setoranAwal=0}){
     const months=tenorTahun*12;
     const rMonthly=bungaTahunan/12;
-    const pajak=0.20;
+    const pajakRate=0.20;
+    const pajakMin=7500000; // minimal saldo awal kena pajak
 
     let saldo=Number(setoranAwal||0);
     let totalSetoran=Number(setoranAwal||0);
@@ -175,22 +176,34 @@
     const rows=[];
     for(let i=1;i<=months;i++){
       const saldoAwal=saldo;
-      saldo+=setoranBulanan;
-      totalSetoran+=setoranBulanan;
 
       let bungaKotor=0,pajakBulan=0,bungaBersih=0;
       if(i>1){ // bunga mulai bulan ke-2
-        bungaKotor=saldo*rMonthly;
-        pajakBulan=bungaKotor*pajak;
+        bungaKotor=saldoAwal*rMonthly; // bunga dari saldo awal saja
+        if(saldoAwal>=pajakMin){
+          pajakBulan=bungaKotor*pajakRate;
+        }
         bungaBersih=bungaKotor-pajakBulan;
         saldo+=bungaBersih;
       }
+
+      saldo+=setoranBulanan;
+      totalSetoran+=setoranBulanan;
 
       totalBungaKotor+=bungaKotor;
       totalPajak+=pajakBulan;
       totalBungaBersih+=bungaBersih;
 
-      rows.push({bulan:i,saldoAwal,setoranAwal:(i===1?setoranAwal:0),setoran:setoranBulanan,bungaKotor,pajak:pajakBulan,bungaBersih,saldo});
+      rows.push({
+        bulan:i,
+        saldoAwal,
+        setoranAwal:(i===1?setoranAwal:0),
+        setoran:setoranBulanan,
+        bungaKotor,
+        pajak:pajakBulan,
+        bungaBersih,
+        saldo
+      });
     }
 
     return{rows,ringkasan:{totalSetoran,totalBungaKotor,totalPajak,totalBungaBersih,saldoAkhir:saldo}};
