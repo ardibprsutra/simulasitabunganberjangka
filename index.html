@@ -60,7 +60,7 @@
     .muted{color:var(--muted);}
     .result{margin-top:14px;padding:14px;background:#eef6ff;border:1px solid #cfe7ff;border-radius:10px;overflow:auto;}
     .summary{display:grid;gap:8px;grid-template-columns:repeat(1,minmax(0,1fr));}
-    @media(min-width:900px){.summary{grid-template-columns:repeat(4,minmax(0,1fr));}}
+    @media(min-width:900px){.summary{grid-template-columns:repeat(5,minmax(0,1fr));}}
     .pill{background:#fff;border:1px solid #dbeafe;border-radius:10px;padding:10px 12px;}
     .pill b{display:block;font-size:.95rem;color:#0f172a;}
     .pill span{color:#334155;font-size:.9rem;}
@@ -167,7 +167,7 @@
     const months=tenorTahun*12;
     const rMonthly=bungaTahunan/12;
     const pajakRate=0.20;
-    const pajakMin=7500000; // minimal saldo awal kena pajak
+    const pajakMin=7500000; // saldo minimal kena pajak
 
     let saldo=Number(setoranAwal||0);
     let totalSetoran=Number(setoranAwal||0);
@@ -179,7 +179,7 @@
 
       let bungaKotor=0,pajakBulan=0,bungaBersih=0;
       if(i>1){ // bunga mulai bulan ke-2
-        bungaKotor=saldoAwal*rMonthly; // bunga dari saldo awal saja
+        bungaKotor=saldoAwal*rMonthly;
         if(saldoAwal>=pajakMin){
           pajakBulan=bungaKotor*pajakRate;
         }
@@ -215,6 +215,7 @@
       <div class="pill"><b>Total Setoran</b><span>${formatRupiah(ringkasan.totalSetoran)}</span></div>
       <div class="pill"><b>Total Bunga Kotor</b><span>${formatRupiah(ringkasan.totalBungaKotor)}</span></div>
       <div class="pill"><b>Total Pajak (20%)</b><span>${formatRupiah(ringkasan.totalPajak)}</span></div>
+      <div class="pill"><b>Total Bunga Bersih</b><span>${formatRupiah(ringkasan.totalBungaBersih)}</span></div>
       <div class="pill"><b>Saldo Akhir</b><span>${formatRupiah(ringkasan.saldoAkhir)}</span></div>
     </div>
     <table>
@@ -244,6 +245,7 @@
           </tr>`).join('')}
       </tbody>
     </table>
+    <div class="footer-note">Perhitungan angka ini hanya merupakan simulasi. Hasil aktual dapat sedikit berbeda dengan angka yang ditampilkan, menyesuaikan kondisi dan data sebenarnya.</div>
     `;
     container.classList.remove('hidden');
   }
