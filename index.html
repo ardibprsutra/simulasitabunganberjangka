@@ -5,92 +5,135 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simulasi Tabungan Berjangka</title>
   <style>
-    :root{
+    :root {
       --brand:#fff;
       --brand-dark:#004999;
       --bg:#f5f7fb;
       --card:#ffffff;
-      --muted:#6b7280;
-      --border:#e5e7eb;
+      --muted:#666;
+      --border:#ddd;
     }
-    *{box-sizing:border-box}
-    body{
+
+    body {
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+      font-family:sans-serif;
       background:var(--bg);
-      color:#2E3286;
+      color:#000;
     }
-    header{ background:var(--brand); color:#000000; padding:16px 20px; text-align:center; }
-    main{ max-width:1100px; margin:24px auto 56px; padding:0 16px; }
-    .card{ background:var(--card); border:1px solid var(--border); border-radius:12px; box-shadow:0 6px 14px rgba(0,0,0,.06); padding:18px; }
 
-    .chooser{display:grid;gap:16px;grid-template-columns:repeat(1,minmax(0,1fr));}
-    @media(min-width:700px){.chooser{grid-template-columns:repeat(3,minmax(0,1fr));}}
-
-    .product{border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:.12s;user-select:none;background:#fff;}
-    .product:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.08);border-color:#d1d5db;}
-    .product h3{
-      margin:0 0 6px;
-      /* ubah ke hitam sesuai permintaan */
-      color:#000000;
-      font-size:1.05rem;
+    .container {
+      max-width:800px;
+      margin:2rem auto;
+      padding:1rem;
     }
-    /* utility agar class text-black di markup juga valid */
-    .text-black{color:#000000 !important;}
 
-    .product .meta{color:var(--muted);font-size:.9rem;}
-    .hidden{display:none!important;}
+    .card {
+      background:var(--card);
+      border-radius:12px;
+      padding:1.5rem;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom:1.5rem;
+    }
 
-    .form-wrap{display:grid;gap:18px;}
-    .row{display:grid;gap:12px;grid-template-columns:1fr;}
-    @media(min-width:700px){.row.two{grid-template-columns:1fr 1fr}.row.three{grid-template-columns:1fr 1fr 1fr}}
+    .header-flex {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:1rem;
+    }
 
-    label{display:block;font-weight:600;margin-bottom:6px;}
-    select,input[type="text"]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:1rem;background:#fff;outline:none;}
-    select:focus,input[type="text"]:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(0,102,204,.12);}
+    h2 {
+      margin:0;
+      font-size:1.3rem;
+      color:#004999;
+    }
 
-    .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-    .btn{appearance:none;border:0;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer;transition:.15s;}
-    .btn-primary{background:var(--brand);color:#fff;}
-    .btn-primary:hover{background:var(--brand-dark);}
-    .btn-ghost{background:#fff;border:1px solid var(--border);color:#111827;}
-    .btn-ghost:hover{background:#f9fafb;}
+    h3 {
+      margin:0 0 .5rem;
+      font-size:1.1rem;
+    }
 
-    .muted{color:var(--muted);}
-    .result{margin-top:14px;padding:14px;background:#eef6ff;border:1px solid #cfe7ff;border-radius:10px;overflow:auto;}
+    .muted {
+      color:var(--muted);
+      font-size:0.9rem;
+    }
 
-    .summary{display:grid;gap:8px;grid-template-columns:repeat(1,minmax(0,1fr));}
-    @media(min-width:900px){.summary{grid-template-columns:repeat(5,minmax(0,1fr));}}
+    .chooser {
+      display:grid;
+      gap:1rem;
+      grid-template-columns:1fr;
+    }
 
-    .pill{background:#fff;border:1px solid #dbeafe;border-radius:10px;padding:10px 12px;}
-    .pill b{display:block;font-size:.95rem;color:#0f172a;}
-    .pill span{color:#334155;font-size:.9rem;}
+    .product {
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:1rem;
+      cursor:pointer;
+      transition:0.2s;
+    }
 
-    table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.95rem;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-    thead th{position:sticky;top:0;background:var(--brand);color:#fff;padding:8px;text-align:center;}
-    tbody td{border-top:1px solid var(--border);padding:8px;text-align:right;}
-    tbody td:first-child,thead th:first-child{text-align:center;}
+    .product:hover {
+      border-color:var(--brand-dark);
+      background:#f0f6ff;
+    }
 
-    .footer-note{margin-top:10px;font-size:.9rem;color:#475569;}
-    .header-flex{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}
+    .meta {
+      font-size:0.85rem;
+      color:var(--muted);
+    }
 
-    /* Pastikan judul form produk juga hitam */
-    #form-cordelia .header-flex h2,
-    #form-elara .header-flex h2,
-    #form-elaraAwal .header-flex h2{
-      color:#000000;
+    .form-row {
+      margin-bottom:1rem;
+    }
+
+    label {
+      display:block;
+      margin-bottom:.4rem;
+      font-weight:600;
+    }
+
+    input, select {
+      width:100%;
+      padding:.6rem;
+      border:1px solid var(--border);
+      border-radius:8px;
+      font-size:1rem;
+    }
+
+    .btn {
+      display:inline-block;
+      padding:.7rem 1.2rem;
+      background:var(--brand-dark);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      font-size:1rem;
+      cursor:pointer;
+      text-align:center;
+      text-decoration:none;
+    }
+
+    .btn:hover {
+      opacity:.9;
+    }
+
+    .result {
+      background:#f9fbff;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:1rem;
+      margin-top:1rem;
     }
   </style>
 </head>
 <body>
-  <header><h1>Simulasi Tabungan Berjangka</h1></header>
+  <div class="container">
 
-  <main>
     <!-- STEP 1 -->
     <section id="step-choose" class="card">
-      <div class="header-flex">
-        <h2 style="margin:0">Pilih Jenis Tabungan</h2>
-        <span class="muted">Mulai dengan memilih salah satu produk di bawah</span>
+      <div class="header-flex" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+        <h2>Simulasi Tabungan Berjangka</h2>
+        <h3>Pilih Jenis Tabungan</h3>
       </div>
 
       <div class="chooser">
@@ -111,246 +154,93 @@
       </div>
     </section>
 
-    <!-- FORM CORDELIA -->
-    <section id="form-cordelia" class="card hidden">
+    <!-- STEP 2 -->
+    <section id="step-input" class="card" style="display:none;">
       <div class="header-flex">
-        <h2>Cordelia Ceremony</h2>
-        <button class="btn btn-ghost" onclick="backToChoose()">← Kembali</button>
+        <h2>Input Data Tabungan</h2>
+        <button class="btn" onclick="goBack()">Kembali</button>
       </div>
-      <div class="form-wrap">
-        <div class="row two">
-          <div>
-            <label>Jangka Waktu</label>
-            <select id="cordelia-tenor">
-              <option value="1">1 Tahun</option>
-              <option value="2">2 Tahun</option>
-              <option value="3">3 Tahun</option>
-            </select>
-          </div>
-          <div>
-            <label>Setoran per Bulan</label>
-            <input type="text" id="cordelia-setoran" class="thousand" placeholder="contoh: 1.000.000"/>
-          </div>
-        </div>
-        <div class="actions"><button class="btn btn-primary" id="btn-cordelia">Hitung</button></div>
-        <div id="cordelia-result" class="result hidden"></div>
+
+      <div class="form-row">
+        <label for="tenor">Tenor (tahun)</label>
+        <select id="tenor"></select>
       </div>
+
+      <div class="form-row">
+        <label for="setoran">Setoran Bulanan (Rp)</label>
+        <input type="number" id="setoran" min="0" />
+      </div>
+
+      <div class="form-row" id="awalRow" style="display:none;">
+        <label for="setoranAwal">Setoran Awal (Rp)</label>
+        <input type="number" id="setoranAwal" min="0" />
+      </div>
+
+      <button class="btn" onclick="hitung()">Hitung</button>
+
+      <div id="hasil" class="result" style="display:none;"></div>
     </section>
 
-    <!-- FORM ELARA -->
-    <section id="form-elara" class="card hidden">
-      <div class="header-flex">
-        <h2>Tabungan Elara (Tanpa Setoran Awal)</h2>
-        <button class="btn btn-ghost" onclick="backToChoose()">← Kembali</button>
-      </div>
-      <div class="form-wrap">
-        <div class="row two">
-          <div>
-            <label>Jangka Waktu</label>
-            <select id="elara-tenor">
-              <option value="1">1 Tahun</option>
-              <option value="2">2 Tahun</option>
-              <option value="3">3 Tahun</option>
-              <option value="4">4 Tahun</option>
-              <option value="5">5 Tahun</option>
-            </select>
-          </div>
-          <div>
-            <label>Setoran per Bulan</label>
-            <input type="text" id="elara-setoran" class="thousand" placeholder="contoh: 1.000.000"/>
-          </div>
-        </div>
-        <div class="actions"><button class="btn btn-primary" id="btn-elara">Hitung</button></div>
-        <div id="elara-result" class="result hidden"></div>
-      </div>
-    </section>
-
-    <!-- FORM ELARA AWAL -->
-    <section id="form-elaraAwal" class="card hidden">
-      <div class="header-flex">
-        <h2>Tabungan Elara (Dengan Setoran Awal)</h2>
-        <button class="btn btn-ghost" onclick="backToChoose()">← Kembali</button>
-      </div>
-      <div class="form-wrap">
-        <div class="row three">
-          <div>
-            <label>Jangka Waktu</label>
-            <select id="elaraAwal-tenor">
-              <option value="1">1 Tahun</option>
-              <option value="2">2 Tahun</option>
-              <option value="3">3 Tahun</option>
-              <option value="4">4 Tahun</option>
-              <option value="5">5 Tahun</option>
-            </select>
-          </div>
-          <div>
-            <label>Setoran Awal</label>
-            <input type="text" id="elaraAwal-setoranAwal" class="thousand" placeholder="contoh: 5.000.000"/>
-          </div>
-          <div>
-            <label>Setoran per Bulan</label>
-            <input type="text" id="elaraAwal-setoran" class="thousand" placeholder="contoh: 1.000.000"/>
-          </div>
-        </div>
-        <div class="actions"><button class="btn btn-primary" id="btn-elaraAwal">Hitung</button></div>
-        <div id="elaraAwal-result" class="result hidden"></div>
-      </div>
-    </section>
-  </main>
+  </div>
 
   <script>
-    const formatID=n=>new Intl.NumberFormat('id-ID').format(n??0);
-    const formatRupiah=n=>"Rp "+formatID(Math.round(n??0));
-    const onlyDigits=s=>(s??"").toString().replace(/\D+/g,"");
-    const parseThousandInput=el=>Number(onlyDigits(el.value)||0);
-    const applyThousandFormat=el=>{const d=onlyDigits(el.value);el.value=d?formatID(Number(d)):"";};
-    const attachThousandHandlers=()=>{document.querySelectorAll('input.thousand').forEach(el=>{
-      el.addEventListener('input',()=>applyThousandFormat(el));
-      el.addEventListener('blur',()=>applyThousandFormat(el));
-    });};
+    let produkTerpilih = null;
+    let bunga = 0;
 
-    const show=id=>document.getElementById(id).classList.remove('hidden');
-    const hide=id=>document.getElementById(id).classList.add('hidden');
-    const clearNode=node=>node&&(node.innerHTML="");
+    function selectProduct(produk) {
+      produkTerpilih = produk;
+      document.getElementById("step-choose").style.display = "none";
+      document.getElementById("step-input").style.display = "block";
+      const tenorSelect = document.getElementById("tenor");
+      tenorSelect.innerHTML = "";
 
-    function selectProduct(key){
-      hide('step-choose');
-      ['form-cordelia','form-elara','form-elaraAwal'].forEach(hide);
-      const map={cordelia:'form-cordelia',elara:'form-elara',elaraAwal:'form-elaraAwal'};
-      show(map[key]);
-      ['cordelia-result','elara-result','elaraAwal-result'].forEach(id=>{
-        hide(id);
-        clearNode(document.getElementById(id));
-      });
-    }
-    function backToChoose(){['form-cordelia','form-elara','form-elaraAwal'].forEach(hide);show('step-choose');}
+      let tenorMax = 5;
+      let showAwal = false;
 
-    function simulasiBulanan({setoranBulanan, tenorTahun, bungaTahunan, setoranAwal=0}){
-      const months=tenorTahun*12;
-      const rMonthly=bungaTahunan/12;
-      const pajakRate=0.20;
-      const pajakMin=7500000; // saldo minimal kena pajak
-      let saldo=Number(setoranAwal||0);
-      let totalSetoran=Number(setoranAwal||0);
-      let totalBungaKotor=0, totalPajak=0, totalBungaBersih=0;
-      const rows=[];
-      for(let i=1;i<=months;i++){
-        const saldoAwal=saldo;
-        let bungaKotor=0,pajakBulan=0,bungaBersih=0;
-        if(i>1){ // bunga mulai bulan ke-2
-          bungaKotor=saldoAwal*rMonthly;
-          if(saldoAwal>=pajakMin){
-            pajakBulan=bungaKotor*pajakRate;
-          }
-          bungaBersih=bungaKotor-pajakBulan;
-          saldo+=bungaBersih;
-        }
-        saldo+=setoranBulanan;
-        totalSetoran+=setoranBulanan;
-        totalBungaKotor+=bungaKotor;
-        totalPajak+=pajakBulan;
-        totalBungaBersih+=bungaBersih;
-        rows.push({
-          bulan:i,
-          saldoAwal,
-          setoranAwal:(i===1?setoranAwal:0),
-          setoran:setoranBulanan,
-          bungaKotor,
-          pajak:pajakBulan,
-          bungaBersih,
-          saldo
-        });
+      if (produk === "cordelia") {
+        bunga = 0.01;
+        tenorMax = 3;
+      } else if (produk === "elara") {
+        bunga = 0.04;
+        tenorMax = 5;
+      } else if (produk === "elaraAwal") {
+        bunga = 0.05;
+        tenorMax = 5;
+        showAwal = true;
       }
-      return{
-        rows,
-        ringkasan:{
-          totalSetoran,
-          totalBungaKotor,
-          totalPajak,
-          totalBungaBersih,
-          saldoAkhir:saldo
-        }
-      };
+
+      for (let i=1; i<=tenorMax; i++) {
+        const opt = document.createElement("option");
+        opt.value = i;
+        opt.textContent = i + " tahun";
+        tenorSelect.appendChild(opt);
+      }
+
+      document.getElementById("awalRow").style.display = showAwal ? "block":"none";
     }
 
-    function renderTabel(container,rows,ringkasan){
-      container.innerHTML=
-      `<div class="summary">
-        <div class="pill"><b>Total Setoran</b><span>${formatRupiah(ringkasan.totalSetoran)}</span></div>
-        <div class="pill"><b>Total Bunga Kotor</b><span>${formatRupiah(ringkasan.totalBungaKotor)}</span></div>
-        <div class="pill"><b>Total Pajak (20%)</b><span>${formatRupiah(ringkasan.totalPajak)}</span></div>
-        <div class="pill"><b>Total Bunga Bersih</b><span>${formatRupiah(ringkasan.totalBungaBersih)}</span></div>
-        <div class="pill"><b>Saldo Akhir</b><span>${formatRupiah(ringkasan.saldoAkhir)}</span></div>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Bulan</th>
-            <th>Saldo Awal</th>
-            <th>Setoran Awal</th>
-            <th>Setoran Perbulan</th>
-            <th>Bunga</th>
-            <th>Pajak</th>
-            <th>Bunga Bersih</th>
-            <th>Saldo Akhir</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows.map(r=>`
-          <tr>
-            <td>${r.bulan}</td>
-            <td>${formatRupiah(r.saldoAwal)}</td>
-            <td>${formatRupiah(r.setoranAwal)}</td>
-            <td>${formatRupiah(r.setoran)}</td>
-            <td>${formatRupiah(r.bungaKotor)}</td>
-            <td>${formatRupiah(r.pajak)}</td>
-            <td>${formatRupiah(r.bungaBersih)}</td>
-            <td>${formatRupiah(r.saldo)}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-      <div class="footer-note">
-        <b>Catatan:</b><br/>
-        1. Sesuai dengan ketentuan perpajakan mengenai simpanan tabungan, saldo/hasil di atas Rp7.500.000 dikenakan pajak sesuai peraturan yang berlaku.<br/>
-        2. Hasil simulasi ini menggambarkan perhitungan dengan Asumsi untuk 1 (satu) rekening / Nasabah, baik tabungan maupun deposito.<br/>
-        3. Suku bunga dapat berubah sewaktu-waktu mengikuti ketentuan yang berlaku.<br/>
-        4. Perhitungan ini hanya merupakan simulasi, hasil sebenarnya dapat berbeda sesuai kondisi dan data aktual.
-      </div>`;
-      container.classList.remove('hidden');
+    function goBack() {
+      document.getElementById("step-choose").style.display = "block";
+      document.getElementById("step-input").style.display = "none";
     }
 
-    function setupHandlers(){
-      attachThousandHandlers();
+    function hitung() {
+      const tenor = parseInt(document.getElementById("tenor").value);
+      const setoran = parseFloat(document.getElementById("setoran").value) || 0;
+      const setoranAwal = parseFloat(document.getElementById("setoranAwal").value) || 0;
 
-      document.getElementById('btn-cordelia').addEventListener('click',()=>{
-        const tenor=+document.getElementById('cordelia-tenor').value;
-        const setoran=parseThousandInput(document.getElementById('cordelia-setoran'));
-        const out=document.getElementById('cordelia-result');
-        if(!tenor||!setoran){alert('Mohon isi tenor dan setoran per bulan.');return;}
-        const {rows,ringkasan}=simulasiBulanan({setoranBulanan:setoran,tenorTahun:tenor,bungaTahunan:0.01});
-        renderTabel(out,rows,ringkasan);
-      });
+      const bulan = tenor * 12;
+      const totalSetoran = setoran * bulan + setoranAwal;
+      const saldoAkhir = totalSetoran * (1 + bunga * tenor);
 
-      document.getElementById('btn-elara').addEventListener('click',()=>{
-        const tenor=+document.getElementById('elara-tenor').value;
-        const setoran=parseThousandInput(document.getElementById('elara-setoran'));
-        const out=document.getElementById('elara-result');
-        if(!tenor||!setoran){alert('Mohon isi tenor dan setoran per bulan.');return;}
-        const {rows,ringkasan}=simulasiBulanan({setoranBulanan:setoran,tenorTahun:tenor,bungaTahunan:0.04});
-        renderTabel(out,rows,ringkasan);
-      });
-
-      document.getElementById('btn-elaraAwal').addEventListener('click',()=>{
-        const tenor=+document.getElementById('elaraAwal-tenor').value;
-        const setoranAwal=parseThousandInput(document.getElementById('elaraAwal-setoranAwal'));
-        const setoran=parseThousandInput(document.getElementById('elaraAwal-setoran'));
-        const out=document.getElementById('elaraAwal-result');
-        if(!tenor||(!setoranAwal&&!setoran)){alert('Mohon isi minimal setoran.');return;}
-        const {rows,ringkasan}=simulasiBulanan({setoranBulanan:setoran,tenorTahun:tenor,bungaTahunan:0.05,setoranAwal:setoranAwal});
-        renderTabel(out,rows,ringkasan);
-      });
+      const hasilDiv = document.getElementById("hasil");
+      hasilDiv.style.display = "block";
+      hasilDiv.innerHTML = `
+        <p><strong>Total Setoran:</strong> Rp ${totalSetoran.toLocaleString()}</p>
+        <p><strong>Estimasi Saldo Akhir:</strong> Rp ${saldoAkhir.toLocaleString()}</p>
+        <p><em>Perhitungan sederhana dengan bunga ${ (bunga*100).toFixed(1) }% p.a.</em></p>
+      `;
     }
-    document.addEventListener('DOMContentLoaded',setupHandlers);
   </script>
 </body>
 </html>
